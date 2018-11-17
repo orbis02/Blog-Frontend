@@ -1,0 +1,43 @@
+<script src="assets/jquery-3.1.1.min.js"></script>
+<script src="app/registrar.js"></script>
+<html>
+<head>
+    
+    <title>Registro</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+   
+    <link href="assets/css/login.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>    
+<body>
+        <div align="center" >
+                <br>
+               
+               <strong  style="font-weight:normal; font-size: 300% ">Registrate</strong><br>
+                </div>
+        <div class="container">
+                <div class="card card-container">
+                    <p id="profile-name" class="profile-name-card"></p>
+                    <form method="post" accept-charset="utf-8" action="login.php" name="loginform" autocomplete="off" role="form" class="form-signin">
+                            <form>
+                                    <label>Name:</label>
+                                    <input  class="form-control"  placeholder="name" type="text" id="name">
+                                    <br>
+                                    <label>Email:</label>
+                                    <input class="form-control" placeholder="email" type="text" id="email">
+                                    <br>
+                                    <label>password:</label>
+                                    <input class="form-control" placeholder="password" type="password" id="password">
+                                    <br>
+                                    <label>Confirmar:</label>
+                                    <input  class="form-control" placeholder="Confirm password" type="password" id="password2">
+                                    <br>
+                                    
+                                </form>
+                        <span id="reauth-email" class="reauth-email"></span>
+                
+                        <button type="button" class="btn btn-lg btn-success btn-block btn-signin" name="registrar" id="registrar">Registrar</button>
+                    </form> 
+                    
+                </div><!-- /card-container -->
+   
+    </body>

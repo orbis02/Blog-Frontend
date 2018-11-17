@@ -1,0 +1,121 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+
+.jumbotron {
+
+	margin-bottom: 0px;
+
+}
+
+#loading {
+
+	margin-top: 50px;
+
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  padding-top: 50px;
+}
+
+h1, h2, h3, h4, h5, h6{
+
+	font-family: 'Open Sans', sans-serif;
+
+}
+
+label  {
+	font-size: 12px;
+
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+
+	padding: 10px;
+	font-size: 10px;
+
+}
+
+h5 {
+
+	font-size: 12px;
+
+}
+
+tr {
+
+	cursor: pointer;
+
+}
+
+.navbar-inverse {
+
+	background-color: #212529;
+	border-color: #212529;
+
+}
+
+.navbar-inverse .navbar-brand {
+
+	color: #ffc107;
+
+
+}
+
+.navbar-nav > h2{
+
+	color: #FFF;
+	font-size: 13px;
+	font-weight: bold;
+
+}
+.table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
+    border-top: 0;
+    font-size: 12px;
+}
+
+.even {
+
+	background-color: #EFEFEF;
+
+}
+
+.question-div {
+
+	min-height: 40px;
+
+}
+
+.box-top-padding{
+
+	padding-top: 0.5%;
+
+}
+
+.box-bottom-padding {
+
+	padding-bottom: 0.5%;
+
+}
+
+.box-bottom-margin {
+
+	margin-bottom: 0.5%;
+
+}
+
+.category {
+
+	background-color: #212529;
+
+}
+
+.table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th {
+
+			padding-bottom: 10px;
+	    padding-top: 15px;
+	    color: #636363;
+	    background-color: #EFEFEF;
+			font-size: 15px;
+
+}
+
