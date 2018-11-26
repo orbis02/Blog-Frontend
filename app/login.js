@@ -1,35 +1,48 @@
 $(document).ready(function(){
 $("#login").click(function()
-{ 
-     alert("Iniciaste secion");
-  
+{  
+   
+    
+    login();
+   
 });
 });
 
 
-function registrar()
-{  var name=$("#name").val();
-  var email=$("#email").val();
-  var password=$("#password").val();
-  var password2=$("#password2").val();
+function login()
+{    var URL =location.protocol + "//" +location.host; 
+     var email=$("#email").val();
+     var password=$("#password").val();
 
-  if(password!=password2)
-    {
-        alert("las contrase;as son diferentes");
-        return;
-    }
+
+
     var data={
-        name: name,
-        email:email,
+        email: email,
         password:password
+        
     }
-    fetch("http://68.183.27.173:8080/register",{
+    fetch("http://68.183.27.173:8080/login",{
         method:'POST',
         body:JSON.stringify(data),
         headers:{
             'Content-Type':'application/json'
         }
     }).then(res=>res.json())
-    .then(response=>console.log('Success:',JSON.stringify(response)))
+     .then((response)=>{
+       
+          if(response.token.length==36)
+          { 
+            var userdata=JSON.stringify(response);
+            localStorage.setItem('Api',userdata);
+            var data= localStorage.getItem('Api');
+            window.location.href=URL+"/blog-api/home.html"; 
+          }
+          else
+          {
+              alert("Favor verificar su usuario");
+          }
+            
+        
+     })
     .catch(error=>console.log("Error:",error));
 }

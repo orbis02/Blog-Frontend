@@ -2,6 +2,8 @@
 	<!DOCTYPE html>
 <html lang="es">
 <head>
+        <script src="assets/js/jquery-3.1.1.min.js"></script>
+        <script src="app/login.js"></script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
   <title>Blog Api | Login</title>
@@ -20,11 +22,11 @@
         <div class="card card-container">
             <img id="profile-img" class="profile-img-card" src="assets/img/avatar_2x.png" />
             <p id="profile-name" class="profile-name-card"></p>
-            <form method="post" accept-charset="utf-8" action="login.php" name="loginform" autocomplete="off" role="form" class="form-signin">
+            <form method="post" accept-charset="utf-8" action="" name="loginform" autocomplete="off" role="form" class="form-signin">
 		
                 <span id="reauth-email" class="reauth-email"></span>
-                <input class="form-control" placeholder="Usuario" name="user_name" type="text" value="" autofocus="" required>
-                <input class="form-control" placeholder="Contraseña" name="user_password" type="password" value="12345678" autocomplete="off" required>
+                <input class="form-control" placeholder="E-mail" id="email" name="email" type="text" value="" autofocus="" required>
+                <input class="form-control" placeholder="Contraseña" id="password" name="password" type="password" value="" autocomplete="off" required>
                 <button type="button" class="btn btn-lg btn-success btn-block btn-signin" name="login" id="login">Iniciar Sesión</button>
             </form> 
             
