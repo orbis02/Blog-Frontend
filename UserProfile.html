@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Blog Api</title>
+	<title>Blog Api| User Profile</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -25,7 +25,7 @@
     <!--  CSS for Demo Purpose, don't include it in your project     -->
      <link href="assets/css/demo.css" rel="stylesheet" />
      <script src="assets/js/jquery-3.1.1.min.js"></script>
-     <script src="app/home.js"></script>
+     <script src="app/UserProfile.js"></script>
 
     <!--  Fonts and icons     -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -79,7 +79,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Lista  de Posts</a>
+                    <a class="navbar-brand" href="#">Perfil</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -118,34 +118,25 @@
 
 
         <div class="content">
-            <div class="container-fluid" id="ListPost">
+            <div class="container-fluid">
+                <div class="row">
+                  <div id="UserProfile"></div>
+                    <div class="col-lg-8 col-md-7">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Publicaciones</h4>
+                            </div>
+                            <div class="content">
+                                <div id="ListPost"></div>
+                            </div>
+                        </div>
+                    </div>
 
-          </div>
+
+                </div>
+            </div>
         </div>
 
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-
-                        <li>
-                            <a href="http://www.creative-tim.com">
-                            OrbisSoft
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                               Blog Api
-                            </a>
-                        </li>
-                        <li>
-                           
-                        </li>
-                    </ul>
-                </nav>
-               
-            </div>
         </footer>
 
     </div>

@@ -35,7 +35,7 @@ function login()
             var userdata=JSON.stringify(response);
             localStorage.setItem('Api',userdata);
             var data= localStorage.getItem('Api');
-            window.location.href=URL+"/blog-api/home.html"; 
+            window.location.href=URL+"/home.html"; 
           }
           else
           {
