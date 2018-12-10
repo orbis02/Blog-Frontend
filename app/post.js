@@ -2,19 +2,11 @@ $(document).ready(function(){
     var userdata=JSON.parse(localStorage.getItem('Api'));
     var token=userdata.token;
     wsConnect(token);
-    // demo.initChartist();
+
     datosuser();
-    GetlistPost();
-
-
-
+    GetPost();
 });
-//funcion para ver post
-function viewPost(id)
-{  localStorage.setItem('PosId',id);
-window.location ="post.html";
-}
-//funcion para cerrar sesion
+
 function logout()
 {
    
@@ -66,51 +58,10 @@ function wsConnect(token) {
                 case "new-comment":
                 // TODO: cambias likes por views
                 $('#articulo-comment-' + data.postId).text(data.comments);
-                break; 
-                
-                case "user-connected":
-                tipo="success";
-                notificacion=data.userEmail;
-                mensaje="Se ha conectado";
-                mostrar_notificaciones(tipo,notificacion,mensaje);
-                break;
-        
-              case "logged":
-              tipo="success";
-              notificacion=data.userName;
-              mensaje="Se ha logueado";
-              mostrar_notificaciones(tipo,notificacion,mensaje);
-                break;
-        
-              case "disconnected":
-              tipo="danger";
-              notificacion=data.userName;
-              mensaje="Se ha desconectado";
-              mostrar_notificaciones(tipo,notificacion,mensaje);
-              break;
-        
-                case "new-post":
-                tipo="info";
-                notificacion=data.userName;
-                mensaje=" ha creado un nuevo post.";
-                mostrar_notificaciones(tipo,notificacion,mensaje);
-                break; 
+                break;    
 
         }
     };
-}
-function mostrar_notificaciones(tipo,notificacion,mensaje)
-{  
-    $.notify({
-        icon: 'ti-gift',
-        message: "<b>Blog Api</b> - "+notificacion+" " +mensaje
-
-    },{
-        type: `${tipo}`,
-        timer: 4000
-    });
-   
-    
 }
 function datosuser()
 {
@@ -129,14 +80,14 @@ function showprofile()
      window.location.href=URL+"/UserProfile.html";
 
 }
-function GetlistPost()
+function GetPost()
 {    
     
       if(localStorage.getItem('Api'))
         {   
              var userdata=JSON.parse(localStorage.getItem('Api'));
-                  
-            fetch("http://68.183.27.173:8080/post",{
+             var PosId=JSON.parse(localStorage.getItem('PosId'));    
+            fetch(`http://68.183.27.173:8080/post/${PosId}`,{
                 method:'GET',
                 // body:null,
                 headers:{
@@ -147,36 +98,35 @@ function GetlistPost()
             }).then(res=>res.json())
              .then((response)=>{
                  console.log(response);
-                $("#ListPost").html("");
-           
-                for(var i=0; i< response.length; i++)
-                {
+              $("#ListPost").html("");
+         
+                
                 var data=`<div class="row">
  
                   <div class="col-md-12">
                       <div class="card">
                               <div class="header">
-                                      <h4 class="title">${response[i].title}</h4>
-                                      <small class="pull-right">${response[i].tags}</small>
-                                      <p class="category"><a onclick="ShowUser(${response[i].userId});" >By: ${response[i].userName} (${response[i].userEmail})</a></p>
+                                      <h4 class="title">${response.title}</h4>
+                                      <small class="pull-right">${response.tags}</small>
+                                      <p class="category"><a onclick="ShowUser(${response.userId});" >By: ${response.userName} (${response.userEmail})</a></p>
                                   </div>
                               
                                   <div class="content">
-                                        ${response[i].body}
+                                        ${response.body}
                                           <div class="footer">
                                               <div class="chart-legend">
-                                              <button class="btn btn-small btn-link " onclick="Like(${response[i].liked},${response[i].id});">${(response[i].liked)?'<i class="fa fa-star text-info"></i>':'<i class="fa fa-star-o text-info"></i>'} </button> <span id="articulo-like-${response[i].id}">${response[i].likes}</span> Me gustas
-                                              <button class="btn btn-small btn-link " onclick="viewPost(${response[i].id});"> <i class="fa fa-eye text-info"></i></button> <span id="articulo-view-${response[i].id}"> ${response[i].views} </span>Visitas 
-                                              <button class="btn btn-small btn-link " onclick="AddComment(${response[i].id});"> <i class="fa fa-comment text-warning"></i> </button> Comentar
+                                              <button class="btn btn-small btn-link " onclick="Like(${response.liked},${response.id});">${(response.liked)?'<i class="fa fa-star text-info"></i>':'<i class="fa fa-star-o text-info"></i>'} </button> <span id="articulo-like-${response.id}">${response.likes}</span> Me gustas
+                                              <button class="btn btn-small btn-link "><span id="articulo-view-${response.id}"> <i class="fa fa-eye text-info"></i></span></button>  ${response.views} Visitas 
+                                              <button class="btn btn-small btn-link " onclick="AddComment(${response.id});">  <i class="fa fa-comment text-warning"></i> </button> Comentar
                                               </div>
                                               <hr>
                                               
-                                               <i class="fa fa-calendar"></i> ${new Date(response[i].createdAt).toLocaleDateString()}
-                                              <div class="pull-right" >  <button class="btn btn-small btn-link" onclick=" GetlistComment(${response[i].id});"> <i class="fa fa-comments text-danger"></i> </button> <span id="articulo-comment-${response[i].id}">${response[i].comments}</span> Ver Comentarios </div>
+                                               <i class="fa fa-calendar"></i> ${new Date(response.createdAt).toLocaleDateString()}
+                                              <div class="pull-right" >  <button class="btn btn-small btn-link" onclick=" GetlistComment(${response.id});"> <span id="articulo-comment-${response.id}"> <i class="fa fa-comments text-danger"></i> </span></button> ${response.comments} Ver Comentarios </div>
                                               
                                           </div>
                             </div>
-                           <div id="agregarComentario${response[i].id}" style="display:none;">
+                           <div id="agregarComentario${response.id}" style="display:none;">
                            <hr>
                            <div class="header">
                          
@@ -184,19 +134,19 @@ function GetlistPost()
                <div class="content">
                    <div class="form-group">
                        <label>Comentar</label>
-                       <textarea id="comentar${response[i].id}" rows="1" class="form-control border-input" placeholder="Here can be your description" value="Mike">                                     
+                       <textarea id="comentar${response.id}" rows="1" class="form-control border-input" placeholder="Here can be your description" value="Mike">                                     
                        </textarea>
                     <br>
-                       <button onclick="PostComment(${response[i].id});" class="btn btn-small btn-link">Publicar</button>
+                       <button onclick="PostComment(${response.id});" class="btn btn-small btn-link">Publicar</button>
                    </div>               
                </div>
                            </div>
-                          <div style="displa:none;" id="ListadoComentario${response[i].id}"></div>
+                          <div style="displa:none;" id="ListadoComentario${response.id}"></div>
                       </div>
                   </div>
               </div>`;
               $("#ListPost").prepend(data);
-                }
+               
              
             
                 
@@ -266,7 +216,7 @@ fetch(`http://68.183.27.173:8080/post/${idPost}/comment`,{
     }
 })
  .then((response)=>{
-    GetlistPost();
+    GetPost();
  }).catch(error=>console.log("Error:",error));
     
 }
@@ -293,7 +243,7 @@ function Like(like,id)
         }
     })
      .then((response)=>{
-         GetlistPost();
+         GetPost();
      }).catch(error=>console.log("Error:",error));
 
  
@@ -330,7 +280,7 @@ function GetlistComment(idPost)
                    <div class="content">
                 <div class="form-group">
                <label>Comentario</label>
-                                                    <textarea rows="1" class="form-control border-input" placeholder="Here can be your description" >
+                                                    <textarea rows="1" class="form-control border-input" placeholder="Here can be your description" value="Mike">
                                                     ${response[i].body}
                                                     </textarea>
                                                 </div>

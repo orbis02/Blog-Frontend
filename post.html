@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Blog Api| User Profile</title>
+	<title>Blog Api</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -25,7 +25,7 @@
     <!--  CSS for Demo Purpose, don't include it in your project     -->
      <link href="assets/css/demo.css" rel="stylesheet" />
      <script src="assets/js/jquery-3.1.1.min.js"></script>
-     <script src="app/UserProfile.js"></script>
+     <script src="app/post.js"></script>
 
     <!--  Fonts and icons     -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -46,18 +46,18 @@
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="http://www.creative-tim.com" class="simple-text">
-                    <div id="username"></div>
+                  <div id="username"></div>
                 </a>
             </div>
 
             <ul class="nav">
-                <li >
+                <li class="active">
                     <a href="home.html">
                         <i class="ti-panel"></i>
                         <p>Lista Post</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a onclick="showprofile();" href="UserProfile.html">
                         <i class="ti-user"></i>
                         <p>Perfil</p>
@@ -79,14 +79,14 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Perfil</a>
+                    <a class="navbar-brand" href="#">Lista  de Posts</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                                <a href="#" onclick="showformnewpost();" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" onclick="showformnewpost();" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="ti-panel"></i>
-								<p>Nuevo Post</p>
+								<p>Nueva Post</p>
                             </a>
                         </li>
                         <!-- <li class="dropdown">
@@ -105,7 +105,7 @@
                               </ul>
                         </li> -->
 						<li>
-                            <a onclick="showprofile();" href="#">
+                            <a onclick="logout();" href="#">
 								<i class="fa fa-power-off"></i>
 								<p>LogOut</p>
                             </a>
@@ -118,72 +118,79 @@
 
 
         <div class="content">
-            
-            <div class="container-fluid">
-                <div class="row">
-                  <div id="UserProfile"></div>
-                    <div class="col-lg-8 col-md-7">
-                        <div class="card">
-                                <div id="nuevopost" style="display:none ;">
-                                        <div class="card">
-                                                <div class="header">
-                                                    <h4 class="title">Nueva Publicacion</h4>
-                                                </div>
-                                                <div class="content">
-                                                    <form>
-                                                        <div class="row">
-                                                            <div class="col-md-5">
-                                                                <div class="form-group">
-                                                                    <label>Titulo</label>
-                                                                    <input type="text" id="tituloPost" name="tituloPost" class="form-control border-input"  placeholder="Titulo" >
-                                                                </div>
-                                                            </div>
-                                                            
-                                                        </div>
-                        
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Tag</label>
-                                                                    <input type="text" id="tagpost" name="tagpost" class="form-control border-input" placeholder="tags" >
-                                                                </div>
-                                                            </div>
-                                                            
-                                                        </div>
-                        
-                                                      
-                        
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label>Contenido</label>
-                                                                    <textarea id="contendiopost" name="contendiopost" rows="5" class="form-control border-input" placeholder="Here can be your description" ></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <button type="button" onclick="addPost();" class="btn btn-info btn-fill btn-wd">Publicar</button>
-                                                        </div>
-                                                        <div class="clearfix"></div>
-                                                    </form>
-                                                </div>
-                                            </div>
+            <div id="nuevopost" style="display:none ;">
+                <div class="card">
+                        <div class="header">
+                            <h4 class="title">Nuevo Publicacion</h4>
+                        </div>
+                        <div class="content">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label>Titulo</label>
+                                            <input type="text" id="tituloPost" name="tituloPost" class="form-control border-input"  placeholder="Titulo" >
                                         </div>
-                            <div class="header">
-                                <h4 class="title">Publicaciones</h4>
-                            </div>
-                            <div class="content">
+                                    </div>
                                     
-                                <div id="ListPost"></div>
-                            </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Tag</label>
+                                            <input type="text" id="tagpost" name="tagpost" class="form-control border-input" placeholder="tags" >
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                              
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Contenido</label>
+                                            <textarea id="contendiopost" name="contendiopost" rows="5" class="form-control border-input" placeholder="Here can be your description" ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" onclick="addPost();" class="btn btn-info btn-fill btn-wd">Publicar</button>
+                                </div>
+                                <div class="clearfix"></div>
+                            </form>
                         </div>
                     </div>
-
-
                 </div>
-            </div>
+            <div class="container-fluid" id="ListPost">
+
+          </div>
         </div>
 
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+
+                        <li>
+                            <a href="http://www.creative-tim.com">
+                            OrbisSoft
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                               Blog Api
+                            </a>
+                        </li>
+                        <li>
+                           
+                        </li>
+                    </ul>
+                </nav>
+               
+            </div>
         </footer>
 
     </div>
