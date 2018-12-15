@@ -1,12 +1,24 @@
 $(document).ready(function(){
-    var userdata=JSON.parse(localStorage.getItem('Api'));
-    var token=userdata.token;
-    wsConnect(token);
+    validar_sesion();
 
     datosuser();
     GetPost();
 });
 
+
+//funcion para validar sesion 
+function validar_sesion()
+{ 
+    if (localStorage.getItem("Api") == null) {
+
+        logout();
+    
+      } else {
+        let token = JSON.parse(localStorage.getItem('Api')).token;
+        wsConnect(token);
+      }
+
+}
 function logout()
 {
    
@@ -59,10 +71,53 @@ function wsConnect(token) {
                 // TODO: cambias likes por views
                 $('#articulo-comment-' + data.postId).text(data.comments);
                 break;    
+                case "user-connected":
+                tipo="success";
+                notificacion=data.userEmail;
+                mensaje="Se ha conectado";
+                mostrar_notificaciones(tipo,notificacion,mensaje);
+                break;
+        
+              case "logged":
+              tipo="success";
+              notificacion=data.userName;
+              mensaje="Se ha logueado";
+              mostrar_notificaciones(tipo,notificacion,mensaje);
+                break;
+        
+              case "disconnected":
+              tipo="danger";
+              notificacion=data.userName;
+              mensaje="Se ha desconectado";
+              mostrar_notificaciones(tipo,notificacion,mensaje);
+              break;
+        
+                case "new-post":
+                tipo="info";
+                notificacion=data.userName;
+                mensaje=" ha creado un nuevo post.";
+                mostrar_notificaciones(tipo,notificacion,mensaje);
+                break; 
+
 
         }
     };
 }
+
+function mostrar_notificaciones(tipo,notificacion,mensaje)
+{  
+    $.notify({
+        icon: 'ti-bell',
+        message: "<b>Blog Api</b> - "+notificacion+" " +mensaje
+
+    },{
+        type: `${tipo}`,
+        timer: 4000
+    });
+   
+    
+}
+
 function datosuser()
 {
     var userdata=JSON.parse(localStorage.getItem('Api'));

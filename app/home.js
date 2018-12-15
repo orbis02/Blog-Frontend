@@ -1,14 +1,24 @@
 $(document).ready(function(){
-    var userdata=JSON.parse(localStorage.getItem('Api'));
-    var token=userdata.token;
-    wsConnect(token);
-    // demo.initChartist();
+    validar_sesion();
     datosuser();
     GetlistPost();
 
 
 
 });
+//funcion para validar sesion 
+function validar_sesion()
+{ 
+    if (localStorage.getItem("Api") == null) {
+
+        logout();
+    
+      } else {
+        let token = JSON.parse(localStorage.getItem('Api')).token;
+        // wsConnect(token);
+      }
+
+}
 //funcion para ver post
 function viewPost(id)
 {  localStorage.setItem('PosId',id);
@@ -38,22 +48,39 @@ function logout()
 //funcion para abrir web sockect
 function wsConnect(token) {
     
-    console.log("WS- connect ", token);
+    // console.log("WS- connect ", token);
     var websocket = new WebSocket(`ws://68.183.27.173:8080/?token=${token}`);
-    console.log(websocket);
+    // console.log(websocket);
     websocket.onopen = function (evt) {
-        console.log(evt)
+        // console.log(evt)
     };
     websocket.onclose = function (evt) {
-        console.log(evt)
+        // console.log(evt)
     };
     websocket.onerror = function (evt) {
-        console.log(evt)
+        // console.log(evt)
     };
 
     websocket.onmessage = function (evt) {
         var data = JSON.parse(evt.data);
-        console.log(data);
+       
+   
+
+        for(var i in data.users){
+            console.log(data.users[i].userId);
+            if($(`#online-${data.users[i].userId}`).hasClass('text-success'))
+            {
+                $(`#online-${data.users[i].userId}`).removeClass("text-success" );
+                
+            }
+            else
+            {
+                console.log( `#online-${data.users[i].userId}`)  ;
+                $(`#online-${data.users[i].userId}`).addClass("text-success");
+            }
+            
+
+        }
         switch (data.type) {
             case "likes":
                 $('#articulo-like-' + data.postId).text(data.likes);
@@ -102,7 +129,7 @@ function wsConnect(token) {
 function mostrar_notificaciones(tipo,notificacion,mensaje)
 {  
     $.notify({
-        icon: 'ti-gift',
+        icon: 'ti-bell',
         message: "<b>Blog Api</b> - "+notificacion+" " +mensaje
 
     },{
@@ -146,7 +173,7 @@ function GetlistPost()
                 }
             }).then(res=>res.json())
              .then((response)=>{
-                 console.log(response);
+                //  console.log(response);
                 $("#ListPost").html("");
            
                 for(var i=0; i< response.length; i++)
@@ -158,7 +185,7 @@ function GetlistPost()
                               <div class="header">
                                       <h4 class="title">${response[i].title}</h4>
                                       <small class="pull-right">${response[i].tags}</small>
-                                      <p class="category"><a onclick="ShowUser(${response[i].userId});" >By: ${response[i].userName} (${response[i].userEmail})</a></p>
+                                      <p class="category"><a onclick="ShowUser(${response[i].userId});" >By: ${response[i].userName} (${response[i].userEmail})</a><i id="online-${response[i].userId}"  class="fa fa-circle" ></i></p>
                                   </div>
                               
                                   <div class="content">
@@ -184,7 +211,7 @@ function GetlistPost()
                <div class="content">
                    <div class="form-group">
                        <label>Comentar</label>
-                       <textarea id="comentar${response[i].id}" rows="1" class="form-control border-input" placeholder="Here can be your description" value="Mike">                                     
+                       <textarea id="comentar${response[i].id}" rows="1" class="form-control border-input" placeholder="Here can be your description" value="">                                     
                        </textarea>
                     <br>
                        <button onclick="PostComment(${response[i].id});" class="btn btn-small btn-link">Publicar</button>
@@ -198,14 +225,14 @@ function GetlistPost()
               $("#ListPost").prepend(data);
                 }
              
-            
+                wsConnect(userdata.token);
                 
              })
             .catch(error=>console.log("Error:",error));
 
 
         }
-
+       
 }
 //funcio para agregar post
 function addPost()
@@ -218,7 +245,7 @@ function addPost()
    let contendiopost=$("#contendiopost").val();
    var data={title:tituloPost,tags:tag,body:contendiopost};
    var userdata=JSON.parse(localStorage.getItem('Api'));
-console.log(userdata.token);
+// console.log(userdata.token);
 fetch(`http://68.183.27.173:8080/post`,{
     method: 'POST',
     body:JSON.stringify(data),
@@ -255,7 +282,7 @@ function PostComment(idPost)
 {   let comentario=$(`#comentar${idPost}`).val();
 var data={body:comentario};
 var userdata=JSON.parse(localStorage.getItem('Api'));
-console.log(userdata.token);
+// console.log(userdata.token);
 fetch(`http://68.183.27.173:8080/post/${idPost}/comment`,{
     method: 'POST',
     body:JSON.stringify(data),

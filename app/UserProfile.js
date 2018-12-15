@@ -1,14 +1,24 @@
 $(document).ready(function(){
-    var userdata=JSON.parse(localStorage.getItem('Api'));
-    var token=userdata.token;
-    wsConnect(token);
-
+   
+    validar_sesion();
     datosuser(); 
     //showprofile();
 GetlistPost();
 GetProfile();
 });
+//funcion para validar sesion 
+function validar_sesion()
+{ 
+    if (localStorage.getItem("Api") == null) {
 
+        logout();
+    
+      } else {
+        let token = JSON.parse(localStorage.getItem('Api')).token;
+        wsConnect(token);
+      }
+
+}
 //funcion para ver post
 function viewPost(id)
 {  localStorage.setItem('PosId',id);
@@ -33,7 +43,22 @@ function wsConnect(token) {
 
     websocket.onmessage = function (evt) {
         var data = JSON.parse(evt.data);
-        console.log(data);
+        for(var i in data.users){
+            console.log(data.users[i].userId);
+            if($(`#online-${data.users[i].userId}`).hasClass('text-success'))
+            {
+                $(`#online-${data.users[i].userId}`).removeClass("text-success" );
+                
+            }
+            else
+            {
+                console.log( `#online-${data.users[i].userId}`)  ;
+                $(`#online-${data.users[i].userId}`).addClass("text-success");
+            }
+            
+
+        }
+        // console.log(data);
         switch (data.type) {
             case "likes":
                 $('#articulo-like-' + data.postId).text(data.likes);
@@ -46,10 +71,52 @@ function wsConnect(token) {
                 case "new-comment":
                 // TODO: cambias likes por views
                 $('#articulo-comment-' + data.postId).text(data.comments);
-                break;    
+                break; 
+                
+                case "user-connected":
+                tipo="success";
+                notificacion=data.userEmail;
+                mensaje="Se ha conectado";
+                mostrar_notificaciones(tipo,notificacion,mensaje);
+                break;
+        
+              case "logged":
+              tipo="success";
+              notificacion=data.userName;
+              mensaje="Se ha logueado";
+              mostrar_notificaciones(tipo,notificacion,mensaje);
+                break;
+        
+              case "disconnected":
+              tipo="danger";
+              notificacion=data.userName;
+              mensaje="Se ha desconectado";
+              mostrar_notificaciones(tipo,notificacion,mensaje);
+              break;
+        
+                case "new-post":
+                tipo="info";
+                notificacion=data.userName;
+                mensaje=" ha creado un nuevo post.";
+                mostrar_notificaciones(tipo,notificacion,mensaje);
+                break; 
 
         }
     };
+}
+
+function mostrar_notificaciones(tipo,notificacion,mensaje)
+{  
+    $.notify({
+        icon: 'ti-bell',
+        message: "<b>Blog Api</b> - "+notificacion+" " +mensaje
+
+    },{
+        type: `${tipo}`,
+        timer: 4000
+    });
+   
+    
 }
 //funcion para cerrar sesion
 function logout()
